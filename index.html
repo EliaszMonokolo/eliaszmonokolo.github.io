@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Website</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-deep: #020b18;
+      --blue-mid: #0a1f3c;
+      --blue-bright: #1a6fd4;
+      --blue-glow: #3b9eff;
+      --accent: #4fc3f7;
+      --text-primary: #e8f4ff;
+      --text-muted: #7bafd4;
+      --mono: 'Space Mono', monospace;
+      --display: 'Syne', sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: var(--display);
+      background: var(--blue-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Animated background */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% -10%, #0d3a6e 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 80% 80%, #051c38 0%, transparent 60%),
+        linear-gradient(160deg, #020b18 0%, #051c38 50%, #020b18 100%);
+    }
+
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(59, 158, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 158, 255, 0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .glow-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.15;
+      z-index: 0;
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+
+    .glow-orb-1 {
+      width: 500px;
+      height: 500px;
+      background: #1a6fd4;
+      top: -150px;
+      left: -100px;
+    }
+
+    .glow-orb-2 {
+      width: 400px;
+      height: 400px;
+      background: #0a4a8a;
+      bottom: -100px;
+      right: -100px;
+      animation-delay: -6s;
+    }
+
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(40px, 30px) scale(1.08); }
+    }
+
+    /* Layout */
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Nav */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 3rem;
+      border-bottom: 1px solid rgba(59, 158, 255, 0.1);
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* Hero */
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+    }
+
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.2s;
+    }
+
+    .hero-title {
+      font-family: var(--display);
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      max-width: 820px;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.35s;
+    }
+
+    .hero-title .highlight {
+      background: linear-gradient(90deg, var(--blue-glow), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      margin-top: 1.5rem;
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      line-height: 1.7;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.5s;
+    }
+
+    .hero-cta {
+      margin-top: 3rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.65s;
+    }
+
+    .btn {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.8rem 1.8rem;
+      border-radius: 2px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--blue-bright);
+      color: #fff;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary:hover {
+      background: var(--blue-glow);
+      box-shadow: 0 0 24px rgba(59, 158, 255, 0.35);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid rgba(59, 158, 255, 0.25);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Cards */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1px;
+      border-top: 1px solid rgba(59, 158, 255, 0.1);
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.85s;
+    }
+
+    .card {
+      padding: 2.5rem 2rem;
+      background: rgba(10, 31, 60, 0.4);
+      backdrop-filter: blur(4px);
+      transition: background 0.2s;
+      cursor: default;
+    }
+
+    .card:hover { background: rgba(26, 111, 212, 0.1); }
+
+    .card-icon {
+      font-family: var(--mono);
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      font-family: var(--display);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .card-desc {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* Footer */
+    footer {
+      padding: 1.5rem 3rem;
+      border-top: 1px solid rgba(59, 158, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer p {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* Animation */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg"></div>
+  <div class="bg-grid"></div>
+  <div class="glow-orb glow-orb-1"></div>
+  <div class="glow-orb glow-orb-2"></div>
+
+  <div class="wrapper">
+
+    <nav>
+      <span class="nav-logo">// my_website</span>
+      <ul class="nav-links">
+        <li><a href="#">Guides</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    </nav>
+
+    <section class="hero">
+      <p class="hero-tag">✦ Welcome</p>
+      <h1 class="hero-title">
+        My website where I share my
+        <span class="highlight"> guides, tech journey</span>
+        and more
+      </h1>
+      <p class="hero-sub">
+        Exploring technology, writing about what I learn, and sharing resources along the way.
+      </p>
+      <div class="hero-cta">
+        <a href="#" class="btn btn-primary">Browse Guides</a>
+        <a href="#" class="btn btn-outline">About Me</a>
+      </div>
+    </section>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">📖</div>
+        <p class="card-title">Guides</p>
+        <p class="card-desc">Step-by-step tutorials and how-tos on tech topics I explore.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🛠️</div>
+        <p class="card-title">Tech Journey</p>
+        <p class="card-desc">Notes and reflections from my ongoing path through technology.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔗</div>
+        <p class="card-title">Resources</p>
+        <p class="card-desc">Useful tools, links, and references I've collected over time.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">👤</div>
+        <p class="card-title">About</p>
+        <p class="card-desc">A little bit about who I am and what this site is for.</p>
+      </div>
+    </div>
+
+    <footer>
+      <p>my_website — built with HTML &amp; CSS</p>
+      <p>hosted on github pages</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>
